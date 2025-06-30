@@ -147,7 +147,7 @@ model event_table {
     organizer_reviews organizer_reviews[]
     ticket_holds      ticket_holds[]
     ticket_type       ticket_type[]
-    event_attendees   event_attendees?
+    event_attendees   event_attendees[]
 }
 
 model ticket_holds {
@@ -177,7 +177,7 @@ model ticket_type {
 
 model event_attendees {
     id               Int               @id @default(autoincrement())
-    event_id         Int               @unique
+    event_id         Int               
     organizer_id     Int
     user_id          Int
     ticket_quantity  Int
@@ -186,6 +186,8 @@ model event_attendees {
     event            event_table       @relation(fields: [event_id], references: [id])
     organizer        organizer_account @relation(fields: [organizer_id], references: [id])
     user             user_account      @relation(fields: [user_id], references: [id])
+
+    @@unique([event_id, user_id])
 }
 
 enum EVENT_STATUS {
